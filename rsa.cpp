@@ -9,23 +9,22 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    long nbits = 63;
+    int nbits = 31;
     int number;
     cin >> number;
 
-    // int count = 0;
+    string result;
     for (int j=nbits; j>=0; j--) {
         if (number & (1 << j)) {
+            result += "1";
             cout << "1";
         } else {
+            result += "0";
             cout << "0";
         }
-        // count++;
-        // if (count % 4 == 0) {
-        //     cout << " ";
-        // }
     }
     cout << endl;
+    cout << result << endl;
 
     return 0;
 }
