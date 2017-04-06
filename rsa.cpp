@@ -13,8 +13,6 @@ int n;
 int e[100], d[100];
 // count size of e and d
 int count;
-// msg message; m copy of msg; en msg with encry
-string msg, m, en;
 
 // calculator x of "ax + by = 1"
 int cald(long int x)
@@ -65,6 +63,57 @@ void calced()
     count = k;
 }
 
+void encryptMessage(string orign, int encry[], int &size)
+{
+    // copyOrign copy of orign;
+    string copyOrign = orign;
+    int len = copyOrign.size();
+    int ekey = e[0];
+
+    int i;
+    long int k;
+    for (i=0; i<len; i++) {
+        int pcnum = copyOrign[i];
+        k = 1;
+        for (int j=0; j<ekey; j++) {
+            k *= pcnum;
+            k %= n;
+        }
+        if (size > i)
+            encry[i] = k;
+        else {
+            cout << "\nSpace of arrary is not enough\n";
+            exit(1);
+        }
+    }
+    encry[i] = -1;
+    size = i;
+    cout << "\nThe encrypted message:\n";
+    for (int j=0; j<size; j++) {
+        printf("%c", encry[j]);
+    }
+}
+
+void decryptMessage(int encry[])
+{
+    int keyd = d[0];
+    string result;
+    int i = 0;
+    long int k;
+    while (encry[i] != -1) {
+        int rdnum = encry[i];
+        k = 1;
+        for (int j=0; j<keyd; j++) {
+            k *= rdnum;
+            k %= n;
+        }
+        result += char(k);
+        i++;
+    }
+    cout << "\nThe deencry message:\n";
+    cout << result << endl;
+}
+
 int main(int argc, char *argv[])
 {
 	cout << "Input the prime number p: ";
@@ -82,8 +131,8 @@ int main(int argc, char *argv[])
 	}
 
 	cout << "Input the message: " << endl;
+    string msg;
 	cin >> msg;
-	m = msg;
 
 	n = p*q;
 	t = (p-1) * (q-1);
@@ -93,5 +142,9 @@ int main(int argc, char *argv[])
     for (int i=0; i<count; i++) {
         cout << e[i] << "\t" << d[i] << endl;
     }
+    int size = 200;
+    int *encry = new int[size];
+    encryptMessage(msg, encry, size);
+    decryptMessage(encry);
 	return 0;
 }
