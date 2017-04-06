@@ -11,30 +11,27 @@ int t;
 int n;
 // possible variable of e and d
 int e[100], d[100];
+// count size of e and d
+int count;
+// msg message; m copy of msg; en msg with encry
+string msg, m, en;
 
-// message
-string msg, m;
-
-// calculator x and y of "ax + by = 1"
-int gcd(int a, int b, int *x, int *y)
+// calculator x of "ax + by = 1"
+int cald(long int x)
 {
-	if (b==0) {
-		*x = 1;
-		*y = 0;
-		return a;
-	} else {
-		int r = gcd(b, a%b, x, y);
-		int t = *x;
-		*x = *y;
-		*y = t - (a/b) * (*y);
-		return r;
-	}
+    long int k = 1;
+    while (1)
+    {
+        k = k + t;
+        if (k % x == 0)
+            return (k / x);
+    }
 }
 
 bool isprime(int num)
 {
 	bool flag = true;
-	for (int i=2; i<sqrt(double(num)); i++) {
+	for (int i=2; i<=sqrt(num); i++) {
 		if (num % i == 0) {
 			flag = false;
 			break;
@@ -43,7 +40,7 @@ bool isprime(int num)
 	return flag;
 }
 
-void calce()
+void calced()
 {
 	int k = 0;
 
@@ -51,9 +48,21 @@ void calce()
 		if (t % j == 0) {
 			continue;
 		}
-		bool flag = prime(j);
+		bool flag = isprime(j);
+        if (flag && j != p && j != q) {
+            e[k] = j;
+            int x;
+            x = cald(e[k]);
+            if (x > 0) {
+                d[k] = x;
+                k++;
+            }
+            if (k == 99) {
+                break;
+            }
+        }
 	}
-
+    count = k;
 }
 
 int main(int argc, char *argv[])
@@ -79,5 +88,10 @@ int main(int argc, char *argv[])
 	n = p*q;
 	t = (p-1) * (q-1);
 
+    calced();
+    cout << "\n Possible values of e and d\n";
+    for (int i=0; i<count; i++) {
+        cout << e[i] << "\t" << d[i] << endl;
+    }
 	return 0;
 }
