@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <cstdlib>
+#include <cstdio>
 using namespace std;
 
 // prime number p, q;
@@ -63,6 +65,32 @@ void calced()
     count = k;
 }
 
+void inttobits(int encry[])
+{
+	string bits;
+	int i = 0;
+	while (encry[i] != -1) {
+		int len = sizeof(int) * 8;
+		// int sum = 0;
+		for (int j=0; j<len; j++) {
+			// int flag;
+			if (encry[i] & (1 << j)) {
+				bits += '1';
+			} else {
+				bits += '0';
+			}
+			// if (flag) {
+			// 	sum += (int)pow(2, j);
+			// }
+			if ((j+1)%8 == 0) {
+				bits += ' ';
+			}
+		}
+        i++;
+	}
+	cout << bits << endl;
+}
+
 void encryptMessage(string orign, int encry[], int &size)
 {
     // copyOrign copy of orign;
@@ -89,9 +117,10 @@ void encryptMessage(string orign, int encry[], int &size)
     encry[i] = -1;
     size = i;
     cout << "\nThe encrypted message:\n";
-    for (int j=0; j<size; j++) {
-        printf("%c", encry[j]);
-    }
+    // for (int j=0; j<size; j++) {
+    //     printf("%c", encry[j]);
+    // }
+    inttobits(encry);
 }
 
 void decryptMessage(int encry[])
